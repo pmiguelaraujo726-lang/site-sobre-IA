@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inteligência Artificial (IA)</title>
+    <!-- Carregamento do Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuração do Tema e Fonte -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        /* Configuração de cores pastel azuis */
+        :root {
+            --color-primary: #81d4fa; /* Azul Pastel Claro - 300 */
+            --color-secondary: #4fc3f7; /* Azul Pastel Médio - 400 */
+            --color-light: #e1f5fe; /* Azul Pastel Muito Claro - 100 */
+            --color-background: #f0f8ff; /* Branco Suave */
+            --color-text: #01579b; /* Azul Escuro para Texto */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            transition: all 0.3s ease;
+        }
+
+        .tab-button {
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .tab-button:hover {
+            transform: translateY(-2px);
+        }
+        .active-tab {
+            background-color: var(--color-secondary) !important;
+            color: white !important;
+            border-bottom: 4px solid var(--color-text);
+        }
+        
+        /* Estilos para o iframe de vídeo responsivo */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <header class="bg-white shadow-lg sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-4 md:mb-0">
+                <span class="text-[var(--color-secondary)]">IA</span>pedia
+            </h1>
+            <!-- Menu de Navegação (Abas) -->
+            <nav id="nav-tabs" class="flex flex-wrap justify-center md:justify-end gap-2">
+                <!-- Os botões de navegação serão gerados por JS -->
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Área de Conteúdo Principal -->
+        <div id="content-container">
+            <!-- Conteúdo de 'O que é IA?' (Ativo por padrão) -->
+            <section id="page-o-que-e-ia" data-page="o-que-e-ia" class="page-content bg-white p-6 md:p-10 rounded-xl shadow-2xl transition-opacity duration-500">
+                <h2 class="text-4xl font-bold mb-6 text-[var(--color-text)]">O que é IA?</h2>
+                <p class="text-lg mb-6 text-gray-700">
+                    A Inteligência Artificial (IA) é um campo da ciência da computação dedicado a criar sistemas que conseguem realizar tarefas que normalmente exigiriam inteligência humana. Isso inclui aprendizado, raciocínio, percepção, resolução de problemas e até mesmo compreensão de linguagem.
+                </p>
+                
+                <div class="p-4 rounded-lg bg-[var(--color-light)] border-l-4 border-[var(--color-primary)] mb-6">
+                    <p class="font-semibold text-lg text-[var(--color-text)]">Definição Técnica:</p>
+                    <p class="text-gray-700">IA é o estudo de agentes inteligentes—qualquer dispositivo que percebe seu ambiente e toma ações que maximizam suas chances de atingir seus objetivos com sucesso.</p>
+                </div>
+
+                <!-- Elemento Interativo: Exemplo de Classificação -->
+                <div class="mt-8 p-6 bg-[var(--color-primary)] text-white rounded-lg shadow-inner">
+                    <h3 class="text-2xl font-semibold mb-4">IA Forte vs. IA Fraca</h3>
+                    <p class="mb-4">Use os botões para ver as diferenças:</p>
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <button onclick="updateAIType('forte')" class="ai-type-btn bg-white text-[var(--color-primary)] font-bold py-2 px-4 rounded-full shadow-md hover:bg-gray-100 transition duration-300">IA Forte</button>
+                        <button onclick="updateAIType('fraca')" class="ai-type-btn bg-white text-[var(--color-primary)] font-bold py-2 px-4 rounded-full shadow-md hover:bg-gray-100 transition duration-300">IA Fraca</button>
+                    </div>
+                    <div id="ai-type-description">
+                        <p class="text-sm italic">Clique em um botão acima para saber mais.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Conteúdo de 'Como Surgiu?' -->
+            <section id="page-como-surgiu" data-page="como-surgiu" class="page-content hidden bg-white p-6 md:p-10 rounded-xl shadow-2xl transition-opacity duration-500 opacity-0">
+                <h2 class="text-4xl font-bold mb-6 text-[var(--color-text)]">Como Surgiu a IA?</h2>
+                <p class="text-lg mb-6 text-gray-700">
+                    A história da IA remonta a décadas, muito antes dos computadores modernos. O conceito de máquinas pensantes tem raízes na filosofia e na ficção científica.
+                </p>
+                
+                <div class="space-y-6">
+                    <div class="bg-[var(--color-light)] p-5 rounded-lg border-l-4 border-[var(--color-secondary)]">
+                        <h3 class="text-2xl font-semibold mb-2 text-[var(--color-text)]">1950: O Teste de Turing</h3>
+                        <p class="text-gray-700">Alan Turing propôs o "Teste de Turing" em seu artigo "Computing Machinery and Intelligence," questionando: "As máquinas podem pensar?" Este foi um marco conceitual.</p>
+                    </div>
+                    
+                    <div class="bg-[var(--color-light)] p-5 rounded-lg border-l-4 border-[var(--color-secondary)]">
+                        <h3 class="text-2xl font-semibold mb-2 text-[var(--color-text)]">1956: Conferência de Dartmouth</h3>
+                        <p class="text-gray-700 font-medium">Este evento é amplamente considerado o nascimento da IA como um campo acadêmico. Foi aqui que o termo "Inteligência Artificial" foi oficialmente cunhado por John McCarthy.</p>
+                    </div>
+
+                    <div class="bg-[var(--color-light)] p-5 rounded-lg border-l-4 border-[var(--color-secondary)]">
+                        <h3 class="text-2xl font-semibold mb-2 text-[var(--color-text)]">Décadas de 80 e 90: O "Inverno da IA" e o Renascimento</h3>
+                        <p class="text-gray-700">Apesar de períodos de financiamento e progresso lento (chamados de "Inverno da IA"), o desenvolvimento de algoritmos de aprendizado de máquina e o aumento do poder computacional prepararam o terreno para a revolução atual.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conteúdo de 'Para que Serve?' -->
+            <section id="page-para-que-serve" data-page="para-que-serve" class="page-content hidden bg-white p-6 md:p-10 rounded-xl shadow-2xl transition-opacity duration-500 opacity-0">
+                <h2 class="text-4xl font-bold mb-6 text-[var(--color-text)]">Para que Serve a IA?</h2>
+                <p class="text-lg mb-6 text-gray-700">
+                    A IA serve para automatizar, prever, otimizar e aumentar a capacidade humana em uma infinidade de domínios. Ela é usada para processar grandes volumes de dados de forma eficiente.
+                </p>
+                
+                <!-- Elemento Interativo: Cards de Aplicações com Efeito Hover -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="app-card bg-[var(--color-light)] p-5 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.03] transition duration-300 transform cursor-pointer border-t-4 border-[var(--color-primary)]">
+                        <div class="text-3xl mb-2 text-[var(--color-secondary)]">
+                            <!-- Ícone de Carro -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-1.1-.9-2-2-2h-3v5z"/><path d="M14 17H5a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v3"/><path d="M5 17L4 20"/><path d="M10 17L9 20"/><circle cx="5" cy="17" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-[var(--color-text)]">Veículos Autônomos</h3>
+                        <p class="text-sm text-gray-600">Para navegar, detectar obstáculos e tomar decisões de condução em tempo real.</p>
+                    </div>
+
+                    <div class="app-card bg-[var(--color-light)] p-5 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.03] transition duration-300 transform cursor-pointer border-t-4 border-[var(--color-primary)]">
+                        <div class="text-3xl mb-2 text-[var(--color-secondary)]">
+                            <!-- Ícone de Coração -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-[var(--color-text)]">Medicina</h3>
+                        <p class="text-sm text-gray-600">Para auxiliar no diagnóstico de doenças (ex: análise de imagens médicas) e na descoberta de novos medicamentos.</p>
+                    </div>
+
+                    <div class="app-card bg-[var(--color-light)] p-5 rounded-lg shadow-md hover:shadow-xl hover:scale-[1.03] transition duration-300 transform cursor-pointer border-t-4 border-[var(--color-primary)]">
+                        <div class="text-3xl mb-2 text-[var(--color-secondary)]">
+                            <!-- Ícone de Carrinho -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.72a2 2 0 0 0 2-1.58L23 6H6"/></svg>
+                        </div>
+                        <h3 class="font-bold text-xl mb-1 text-[var(--color-text)]">Recomendações</h3>
+                        <p class="text-sm text-gray-600">Para sugerir produtos (e-commerce), filmes (streaming) ou conteúdo com base no histórico do usuário.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conteúdo de 'O que ela pode fazer?' -->
+            <section id="page-o-que-ela-pode-fazer" data-page="o-que-ela-pode-fazer" class="page-content hidden bg-white p-6 md:p-10 rounded-xl shadow-2xl transition-opacity duration-500 opacity-0">
+                <h2 class="text-4xl font-bold mb-6 text-[var(--color-text)]">O que a IA Pode Fazer?</h2>
+                <p class="text-lg mb-6 text-gray-700">
+                    As capacidades da IA se expandiram enormemente nas últimas décadas, abrangendo quase todas as áreas de interação digital e física.
+                </p>
+                
+                <div class="space-y-6">
+                    <!-- Geradores de Texto e Imagem -->
+                    <div class="flex flex-col md:flex-row bg-[var(--color-light)] p-5 rounded-lg shadow-md">
+                        <div class="md:w-1/3 mb-4 md:mb-0">
+                            <h3 class="text-2xl font-semibold text-[var(--color-secondary)]">Geração de Conteúdo</h3>
+                        </div>
+                        <div class="md:w-2/3 text-gray-700">
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>**Textos:** Criar artigos, e-mails, códigos de programação e até mesmo poesia (modelos como GPT).</li>
+                                <li>**Imagens:** Gerar imagens realistas e arte a partir de descrições textuais (modelos como DALL-E e Midjourney).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Processamento de Linguagem Natural (PLN) -->
+                    <div class="flex flex-col md:flex-row bg-[var(--color-light)] p-5 rounded-lg shadow-md">
+                        <div class="md:w-1/3 mb-4 md:mb-0">
+                            <h3 class="text-2xl font-semibold text-[var(--color-secondary)]">Compreensão e Diálogo</h3>
+                        </div>
+                        <div class="md:w-2/3 text-gray-700">
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>**Assistentes Virtuais:** Entender comandos de voz (Siri, Alexa) e responder de forma contextualizada.</li>
+                                <li>**Tradução:** Realizar traduções instantâneas e precisas entre dezenas de idiomas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Análise de Dados e Padrões -->
+                    <div class="flex flex-col md:flex-row bg-[var(--color-light)] p-5 rounded-lg shadow-md">
+                        <div class="md:w-1/3 mb-4 md:mb-0">
+                            <h3 class="text-2xl font-semibold text-[var(--color-secondary)]">Previsão e Otimização</h3>
+                        </div>
+                        <div class="md:w-2/3 text-gray-700">
+                            <ul class="list-disc list-inside space-y-2">
+                                <li>**Mercado Financeiro:** Detectar fraudes e prever tendências de ações com alta precisão.</li>
+                                <li>**Logística:** Otimizar rotas de entrega e gestão de armazéns.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Conteúdo de 'Questionário' -->
+            <section id="page-questionario" data-page="questionario" class="page-content hidden bg-white p-6 md:p-10 rounded-xl shadow-2xl transition-opacity duration-500 opacity-0">
+                <h2 class="text-4xl font-bold mb-6 text-[var(--color-text)]">Mini Questionário IA</h2>
+                <p class="text-lg mb-6 text-gray-700">Teste seu conhecimento sobre os conceitos básicos de Inteligência Artificial!</p>
+
+                <!-- Formulário do Questionário -->
+                <div id="quiz-form" class="space-y-8">
+                    <!-- Pergunta 1 -->
+                    <div class="p-5 rounded-lg border-2 border-[var(--color-primary)]">
+                        <p class="font-bold text-xl mb-3 text-[var(--color-text)]">1. Quem cunhou oficialmente o termo "Inteligência Artificial"?</p>
+                        <div class="space-y-2">
+                            <label class="block cursor-pointer p-2 rounded-lg hover:bg-[var(--color-light)]">
+                                <input type="radio" name="q1" value="a" class="mr-2 accent-[var(--color-secondary)]"> Alan Turing
+                            </label>
+                            <label class="block cursor-pointer p-2 rounded-lg hover:bg-[var(--color-light)]">
+                                <input type="radio" name="q1" value="b" class="mr-2 accent-[var(--color-secondary)]"> John McCarthy
+                            </label>
+                            <label class="block cursor-pointer p-2 rounded-lg hover:bg-[var(--color-light)]">
+                                <input type="radio" name="q1" value="c" class="mr-2 accent-[var(--color-secondary)]"> Marvin Minsky
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pergunta 2 -->
+                    <div class="p-5 rounded-lg border-2 border-[var(--color-primary)]">
+                        <p class="font-bold text-xl mb-3 text-[var(--color-text)]">2. A IA utilizada em sistemas de recomendação (Netflix, Amazon) é geralmente classificada como:</p>
+                        <div class="space-y-2">
+                            <label class="block cursor-pointer p-2 rounded-lg hover:bg-[var(--color-light)]">
+                                <input type="radio" name="q2" value="a" class="mr-2 accent-[var(--color-secondary)]"> IA Forte (AGI)
+                            </label>
+                            <label class="block cursor-pointer p-2 rounded-lg hover:bg-[var(--color-light)]">
+                                <input type="radio" name="q2" value="b" class="mr-2 accent-[var(--color-secondary)]"> IA Fraca (ANI)
+                            </label>
+                            <label class="block cursor-pointer p-2 rounded-lg hover:bg-[var(--color-light)]">
+                                <input type="radio" name="q2" value="c" class="mr-2 accent-[var(--color-secondary)]"> IA Genérica
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="checkQuiz()" class="mt-8 bg-[var(--color-secondary)] text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-[#45b6e6] transition duration-300 transform hover:scale-[1.05]">
+                    Verificar Respostas
+                </button>
+                
+                <div id="quiz-result" class="mt-6 text-xl font-bold hidden p-4 rounded-lg"></div>
+            </section>
+
+            <!-- Conteúdo de 'Vídeo' -->
+            <section id="page-video" data-page="video" class="page-content hidden bg-white p-6 md:p-10 rounded-xl shadow-2xl transition-opacity duration-500 opacity-0">
+                <h2 class="text-4xl font-bold mb-6 text-[var(--color-text)]">Vídeo Introdutório sobre IA</h2>
+                <p class="text-lg mb-6 text-gray-700">Assista a este vídeo para uma introdução visual e concisa sobre o universo da Inteligência Artificial. (Fonte: Canal Kurzgesagt - In a Nutshell)</p>
+
+                <!-- Contêiner responsivo para o vídeo (16:9 aspect ratio) -->
+                <div class="video-container shadow-xl">
+                    <!-- Exemplo de vídeo incorporado do YouTube (o que é IA) -->
+                    <iframe 
+                        src="https://www.youtube.com/embed/aircAruvnKk" 
+                        title="O que é Inteligência Artificial?" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // --- Variáveis e Funções de Controle da Página ---
+
+        // Mapeamento dos IDs de seção para os títulos dos botões
+        const pages = {
+            'o-que-e-ia': 'O que é IA?',
+            'como-surgiu': 'Como Surgiu?',
+            'para-que-serve': 'Para que Serve?',
+            'o-que-ela-pode-fazer': 'O que Ela Pode Fazer?',
+            'questionario': 'Questionário', // NOVA PÁGINA
+            'video': 'Vídeo' // NOVA PÁGINA
+        };
+
+        const navTabs = document.getElementById('nav-tabs');
+        const contentContainer = document.getElementById('content-container');
+        let currentPage = 'o-que-e-ia'; // Página inicial
+
+        /**
+         * Gera os botões de navegação no cabeçalho.
+         */
+        function initializeNavigation() {
+            // Limpa os botões existentes antes de recriar
+            navTabs.innerHTML = ''; 
+            
+            Object.entries(pages).forEach(([id, title]) => {
+                const button = document.createElement('button');
+                button.textContent = title;
+                button.id = `btn-${id}`;
+                button.className = 'tab-button text-[var(--color-text)] font-semibold py-2 px-4 rounded-full shadow-md bg-white hover:bg-[var(--color-light)] whitespace-nowrap';
+                button.setAttribute('data-target', id);
+                button.onclick = () => showPage(id);
+                navTabs.appendChild(button);
+            });
+            // Ativa a página inicial
+            showPage(currentPage);
+        }
+
+        /**
+         * Exibe a página de conteúdo selecionada.
+         * @param {string} pageId - O ID da página (seção) a ser exibida.
+         */
+        function showPage(pageId) {
+            // Permite alternar para a mesma página se for a inicialização
+            if (currentPage === pageId && document.getElementById(`page-${pageId}`).classList.contains('opacity-100')) return; 
+            
+            // 1. Esconder todas as páginas e remover classes de botão
+            document.querySelectorAll('.page-content').forEach(section => {
+                section.classList.add('hidden', 'opacity-0');
+                section.classList.remove('opacity-100');
+            });
+
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active-tab');
+            });
+
+            // 2. Mostrar a página atual e adicionar classes de botão
+            const targetSection = document.getElementById(`page-${pageId}`);
+            const targetButton = document.getElementById(`btn-${pageId}`);
+
+            if (targetSection && targetButton) {
+                // Atraso para garantir que a transição de opacidade seja notada
+                setTimeout(() => {
+                    targetSection.classList.remove('hidden');
+                    // Força o reflow antes de adicionar a classe de opacidade para a transição
+                    targetSection.offsetWidth; 
+                    targetSection.classList.add('opacity-100');
+                }, 50);
+
+                targetButton.classList.add('active-tab');
+                currentPage = pageId;
+            }
+        }
+
+        /**
+         * Função de Interatividade: Atualiza a descrição de IA Forte/Fraca.
+         * @param {string} type - 'forte' ou 'fraca'.
+         */
+        function updateAIType(type) {
+            const descDiv = document.getElementById('ai-type-description');
+            let content = '';
+
+            // Remove a classe de ativo de todos os botões e aplica ao selecionado
+            document.querySelectorAll('.ai-type-btn').forEach(btn => {
+                btn.classList.remove('active-selection');
+                btn.classList.remove('bg-[var(--color-text)]', 'text-white');
+                btn.classList.add('bg-white', 'text-[var(--color-primary)]');
+            });
+
+            const activeBtn = Array.from(document.querySelectorAll('.ai-type-btn')).find(btn => btn.textContent.toLowerCase().includes(type));
+            if (activeBtn) {
+                activeBtn.classList.add('active-selection', 'bg-[var(--color-text)]', 'text-white');
+                activeBtn.classList.remove('bg-white', 'text-[var(--color-primary)]');
+            }
+
+
+            if (type === 'forte') {
+                content = `
+                    <p class="font-bold">IA Forte (A-GI):</p>
+                    <p>Uma IA que possui consciência, senciência e capacidade de resolver qualquer problema intelectual que um ser humano pode resolver. É uma IA teórica, semelhante à ficção científica.</p>
+                `;
+            } else { // 'fraca'
+                content = `
+                    <p class="font-bold">IA Fraca (A-NI):</p>
+                    <p>Também chamada de IA estreita. É projetada e treinada para uma tarefa específica (ex: assistentes de voz, sistemas de recomendação, jogos de xadrez). Quase toda a IA moderna é fraca.</p>
+                `;
+            }
+            descDiv.innerHTML = content;
+        }
+        
+        /**
+         * Função de Interatividade: Verifica as respostas do questionário.
+         */
+        function checkQuiz() {
+            const resultDiv = document.getElementById('quiz-result');
+            const form = document.getElementById('quiz-form');
+            // Respostas corretas
+            const answers = {
+                'q1': 'b', // John McCarthy
+                'q2': 'b'  // IA Fraca (ANI)
+            };
+            let score = 0;
+            let totalQuestions = Object.keys(answers).length;
+
+            // Limpa classes de resultado anterior
+            resultDiv.classList.remove('bg-red-100', 'bg-green-100', 'bg-yellow-100', 'text-red-800', 'text-green-800', 'text-yellow-800');
+
+            for (const [q, correctAns] of Object.entries(answers)) {
+                const selected = form.querySelector(`input[name="${q}"]:checked`);
+                if (selected && selected.value === correctAns) {
+                    score++;
+                }
+            }
+
+            resultDiv.classList.remove('hidden');
+
+            if (score === totalQuestions) {
+                resultDiv.textContent = `Parabéns! Você acertou todas as ${score} questões! 🎉`;
+                resultDiv.classList.add('bg-green-100', 'text-green-800');
+            } else if (score > 0) {
+                resultDiv.textContent = `Você acertou ${score} de ${totalQuestions} questões. Continue explorando a IA! 🤔`;
+                resultDiv.classList.add('bg-yellow-100', 'text-yellow-800');
+            } else {
+                resultDiv.textContent = `Você acertou 0 de ${totalQuestions} questões. Não se preocupe, o aprendizado é contínuo! Tente novamente! 💡`;
+                resultDiv.classList.add('bg-red-100', 'text-red-800');
+            }
+            
+            // Rola para o resultado
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // --- Inicialização ---
+        window.onload = () => {
+            initializeNavigation();
+        };
+
+    </script>
+</body>
+</html>
